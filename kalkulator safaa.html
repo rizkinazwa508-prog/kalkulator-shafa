@@ -1,0 +1,186 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Tosca</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: linear-gradient(135deg, #009688, #26a69a, #80cbc4);
+    }
+
+    .calculator{
+      width:340px;
+      background:white;
+      padding:20px;
+      border-radius:25px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .title{
+      text-align:center;
+      font-size:24px;
+      font-weight:bold;
+      color:#00897b;
+      margin-bottom:15px;
+    }
+
+    .display{
+      width:100%;
+      height:70px;
+      border:none;
+      outline:none;
+      border-radius:15px;
+      background:#e0f2f1;
+      text-align:right;
+      padding:15px;
+      font-size:32px;
+      color:#00695c;
+      margin-bottom:15px;
+      font-weight:bold;
+    }
+
+    .buttons{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+
+    button{
+      height:65px;
+      border:none;
+      border-radius:18px;
+      font-size:22px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+    }
+
+    .number{
+      background:#b2dfdb;
+      color:#004d40;
+    }
+
+    .operator{
+      background:#26a69a;
+      color:white;
+    }
+
+    .equal{
+      background:#00897b;
+      color:white;
+      grid-column:span 2;
+    }
+
+    .clear{
+      background:#ef5350;
+      color:white;
+    }
+
+    .percent{
+      background:#4db6ac;
+      color:white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="title">Kalkulator Tosca</div>
+
+    <input type="text" class="display" id="display" value="0" readonly>
+
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="percent" onclick="appendValue('%')">%</button>
+      <button class="operator" onclick="appendValue('/')">÷</button>
+      <button class="operator" onclick="appendValue('*')">×</button>
+
+      <button class="number" onclick="appendValue('7')">7</button>
+      <button class="number" onclick="appendValue('8')">8</button>
+      <button class="number" onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('-')">−</button>
+
+      <button class="number" onclick="appendValue('4')">4</button>
+      <button class="number" onclick="appendValue('5')">5</button>
+      <button class="number" onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+
+      <button class="number" onclick="appendValue('1')">1</button>
+      <button class="number" onclick="appendValue('2')">2</button>
+      <button class="number" onclick="appendValue('3')">3</button>
+      <button class="number" onclick="appendValue('.')">.</button>
+
+      <button class="number" onclick="appendValue('0')">0</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById("display");
+    let resetDisplay = false;
+
+    function appendValue(value){
+
+      // otomatis hapus hasil saat pencet angka baru
+      if(resetDisplay){
+        display.value = "";
+        resetDisplay = false;
+      }
+
+      // kalau awal 0, ganti
+      if(display.value === "0"){
+        display.value = "";
+      }
+
+      display.value += value;
+    }
+
+    function clearDisplay(){
+      display.value = "0";
+    }
+
+    function calculate(){
+      try{
+
+        let expression = display.value.replace('%', '/100');
+
+        let result = eval(expression);
+
+        // validasi biar gak error
+        if(result === undefined || isNaN(result)){
+          display.value = "Error";
+        } else {
+          display.value = result;
+        }
+
+        // setelah =, otomatis reset saat pencet angka lagi
+        resetDisplay = true;
+
+      } catch {
+        display.value = "Error";
+        resetDisplay = true;
+      }
+    }
+  </script>
+
+</body>
+</html>
+```
